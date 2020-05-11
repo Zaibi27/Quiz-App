@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View , TouchableOpacity  , Button } from 'react-native';
+import { StyleSheet, Text, View , TouchableOpacity  , Image } from 'react-native';
 import {Questions} from "./Constants/Questions"
 
 
@@ -179,7 +179,7 @@ const quizScreen = (
 
   const homeScreen  =(
   
-    <View style = {styles.homescreen} >
+    <View style = {styles.container} >
       <View style = {styles.lastScore} >
       <Text style={{fontSize: 50 , color: "indigo"}}>Your Last Score: {this.state.score}</Text>
       </View>
@@ -204,7 +204,7 @@ const quizScreen = (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rosybrown',
+    backgroundColor: "rosybrown" ,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -265,8 +265,12 @@ lastScore:{
     justifyContent: "center" ,
     alignItems: "center",
     borderRadius:30 ,
-    
-    
+    },
+    backgroundImage:{
       
-  }
+      width: 500 ,
+      height: 1000
+      
+  },
+
 });
