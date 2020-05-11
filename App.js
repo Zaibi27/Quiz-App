@@ -1,15 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View , TouchableOpacity  , Button } from 'react-native';
-import {Questions } from "./Constants/Questions"
+import {Questions} from "./Constants/Questions"
 
 
 
 export default class App extends React.Component {
 
   constructor(props){
-    super(props) ;
+    super(props) ;3
+    
    this.state = {
-      myQuestion: Questions , 
+       myQuestion: Questions ,
+       
      
       q: Math.floor(Math.random()*15),
       score: 0 ,
@@ -191,7 +193,7 @@ const quizScreen = (
   
     <View style = {styles.homescreen} >
       <View style = {styles.lastScore} >
-      <Text style={{fontSize: 50 , color: "silver"}}>Your Last Score: {this.state.score}</Text>
+      <Text style={{fontSize: 50 , color: "indigo"}}>Your Last Score: {this.state.score}</Text>
       </View>
      
     <Text style={{fontSize: 30 , color: "white"}}>General Knowledge Quiz</Text>
@@ -229,7 +231,7 @@ const styles = StyleSheet.create({
 },
 homescreen: {
   flex: 1,
-  backgroundColor: 'steelblue',
+  backgroundColor: 'rosybrown',
   alignItems: 'center',
   justifyContent: 'center',
   
@@ -271,7 +273,7 @@ lastScore:{
   },
   nextButton: {
     padding: 10 ,
-    backgroundColor: "navy" ,
+    backgroundColor: "darkslateblue" ,
     width: 100,
     justifyContent: "center" ,
     alignItems: "center",
