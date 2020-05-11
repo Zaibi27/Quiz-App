@@ -21,30 +21,29 @@ export default class App extends React.Component {
        buttonText: "NEXT" , 
        screen: "home",
        disable: false ,
-       
-       
+       disableNext: true ,     
   } ;
 }
 
 //Next Button
 nextQuestion = () =>{
+  if(this.state.questionNo === 4 ){
+    
+    this.setState({buttonText: "Finish"})
+  } 
   if(this.state.buttonText === "NEXT"){
   this.setState({q: Math.floor(Math.random()*15) ,
     colorA: "teal" , colorB: "teal" , colorC: "teal" ,
-    questionNo: this.state.questionNo + 1})
-  if(this.state.questionNo === 4 ){
-    
-      this.setState({buttonText: "Finish"})
-    } 
+    questionNo: this.state.questionNo + 1 ,
+    disable: false , 
+    disableNext : true })
+ 
   }
   else if(this.state.buttonText === "Finish"){
-    this.setState({screen: 'home'})
+    this.setState({screen: 'home' , colorA: "teal" , colorB: "teal" , colorC: "teal" ,
+    disable: false , 
+    disableNext : false})
   }
-}
-
-//sleep function
-sleep = (milliseconds) => {
-  return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 //finds correct option
 findCorrectOption = () => {
@@ -60,16 +59,9 @@ findCorrectOption = () => {
 
     return 
   }
-
-
-
 //Answer evaluation
 checkAnswer = (ans , option) => {
   this.setState({disable: true})
-  if(this.state.questionNo === 4 ){
-    this.setState({buttonText: "Finish"})
-  }
-  
   if( this.state.myQuestion[this.state.q].answer === ans ){
    if(option === "a"){
    this.setState({colorA: "green"})
@@ -82,22 +74,11 @@ checkAnswer = (ans , option) => {
    }
    
    this.setState({score: this.state.score+1})
-   
-   if(this.state.questionNo === 5){
-    this.sleep(600).then(() => this.setState({screen: 'home'} ))
-  }
+   this.setState({disableNext: false})
 
-  
-   this.sleep(600).then(() => this.setState({q: Math.floor(Math.random()*15) , disable: false ,
-                                             colorA: "teal" , colorB: "teal" ,
-                                            colorC: "teal" , 
-                                            questionNo: this.state.questionNo + 1}))
   }
   else{
     this.setState({disable: true})
-    if(this.state.questionNo === 4 ){
-      this.setState({buttonText: "Finish"})
-    }
     if(option === "a"){
       this.setState({colorA: "red"})
       }
@@ -108,14 +89,9 @@ checkAnswer = (ans , option) => {
        this.setState({colorC: "red"})
       }
      this.findCorrectOption() 
-     
-  if(this.state.questionNo === 5){
-    this.sleep(600).then(() => this.setState({screen: 'home'} ))
-  }
-  this.sleep(600).then(() => this.setState({q:  Math.floor(Math.random()*15)  , disable: false ,
-    colorA: "teal" , colorB: "teal" ,
-    colorC: "teal" , questionNo: this.state.questionNo + 1}))
-  }
+     this.setState({disableNext: false})
+  
+}
  }
   
   render() {
@@ -132,9 +108,8 @@ const quizScreen = (
       
        <Text style = {{fontSize: 33 , color: "white" , textAlign: "center"  }}> {this.state.myQuestion[this.state.q].question} </Text>
       </View>
-      
-      
-      <View style = {styles.optionArea}>  
+       
+       <View style = {styles.optionArea}>  
       <TouchableOpacity 
        style = {{
         backgroundColor: this.state.colorA ,
@@ -153,8 +128,7 @@ const quizScreen = (
             1.  {this.state.myQuestion[this.state.q].options[0]} </Text>
         </TouchableOpacity>
 
-      
-        <TouchableOpacity 
+      <TouchableOpacity 
         style = {{ backgroundColor: this.state.colorB ,
             alignItems: "center",
             justifyContent: "center" ,
@@ -172,9 +146,7 @@ const quizScreen = (
             2.  {this.state.myQuestion[this.state.q].options[1]}
           </Text>
         </TouchableOpacity>
-
-     
-
+        
         <TouchableOpacity 
         style = {{ backgroundColor: this.state.colorC ,
             alignItems: "center",
@@ -195,9 +167,7 @@ const quizScreen = (
       
         </View>
       
-      
-
-      <TouchableOpacity onPress = {(this.nextQuestion)} activeOpacity= {0.5} >
+      <TouchableOpacity disabled = {this.state.disableNext} onPress = {(this.nextQuestion)} activeOpacity= {0.5} >
        
        <View style= {styles.nextButton}>
          <Text style= {{fontSize: 30 , color: "white"}}>{this.state.buttonText}</Text>
@@ -217,17 +187,16 @@ const quizScreen = (
     <Text style={{fontSize: 30 , color: "white"}}>General Knowledge Quiz</Text>
     
       <TouchableOpacity activeOpacity = {0.8} onPress= { () => this.setState({screen: "quiz" 
-                                                        , score: 0 , questionNo: 1 , buttonText: "NEXT"})} 
-      style={{backgroundColor: "darkslateblue" , padding: 20 , marginTop: 50 ,
-                                borderRadius: 35}}>
+                                                        , score: 0 , questionNo: 1 , buttonText: "NEXT" , 
+                                                        disableNext :  true})} 
+      style={{backgroundColor: "darkslateblue" , 
+          padding: 20 , marginTop: 50 ,borderRadius: 35}}>
         <Text style={{fontSize: 20 , color: "silver"}}> START QUIZ</Text>
       </TouchableOpacity>
-   
-     </View>
+   </View>
     
   )
-
-  return this.state.screen === 'home' ? homeScreen : quizScreen ;
+   return this.state.screen === 'home' ? homeScreen : quizScreen ;
 }
 }
 
